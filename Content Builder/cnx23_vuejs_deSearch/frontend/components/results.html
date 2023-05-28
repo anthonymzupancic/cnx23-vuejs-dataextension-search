@@ -9,23 +9,10 @@ template: `
 <section>
     <div class="w-full max-w-4xl mx-auto mt-20">
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-dark">Search Results:</h2>
+            <h2 class="mb-2 text-lg font-semibold text-primary dark:text-dark">Search Results:</h2>
             <div v-for="(result, index) in dataExtensionReturn" :key="result.CustomerKey">
+                <!-- Use the Results List Item Component -->
                 <results-list-item :result="result"></results-list-item>
-                <!-- <ul class="pt-6 max-w-md space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
-                    <li class="text-md font-bold">
-                        {{result.Name}}
-                    </li>
-                    <li>
-                        Customer Key: {{result.CustomerKey}}
-                    </li>
-                    <li>
-                        Created Date: {{ result.CreatedDate}}
-                    </li>
-                    <li>
-                        Category ID: {{ result.CategoryID}}
-                    </li>
-                </ul> -->
             </div>
         </div>
     </div>
