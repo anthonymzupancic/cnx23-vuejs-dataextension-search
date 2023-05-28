@@ -1,0 +1,40 @@
+<script runat="server">
+    Platform.Load("core", "1.1");
+
+    function getDataExtensions(searchTerm) {
+        try {
+            var config = {
+                soapObjName: "DataExtension",
+                cols: ['Name', 'CustomerKey', 'CreatedDate', 'CategoryID'],
+                mid: "", //optional
+                filter: {
+                    Property: 'Name',
+                    SimpleOperator: 'like',
+                    Value: 'nook'
+                }
+            }
+
+            var deSearch = ws.retrieve(config)
+
+            // Search Returned Results
+            if (deSearch && deSearch.results) {
+                return {
+                    status: 'ok',
+                    response: deSearch.results || []
+                }
+                //No Results Returned
+            } else {
+                return {
+                    status: 'ok',
+                    response: 'No results Returned'
+                }
+            }
+        } catch (err) {
+            return {
+                status: 'error',
+                response: err
+            }
+        }
+    }
+
+</script>

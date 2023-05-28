@@ -1,0 +1,19 @@
+<script runat="server">
+    Platform.Load('core', 1.1)
+    
+    var appJS = Platform.Function.ContentBlockByID('10237')
+    var dataExtensionSearch = Platform.Function.ContentBlockByID('10239')
+    var resultsListItem = Platform.Function.ContentBlockByID('10242')
+    var dataExtensionResults = Platform.Function.ContentBlockByID('10238')
+    var tailwindConfig = Platform.Function.ContentBlockByID('10248')
+    
+</script>
+
+
+%%=Concat('<', 'scr', 'ipt>')=%%
+    <ctrl:var name=tailwindConfig />
+    <ctrl:var name=dataExtensionSearch />
+    <ctrl:var name=resultsListItem />
+    <ctrl:var name=dataExtensionResults />
+    <ctrl:var name=appJS />
+%%=Concat('</', 'scr', 'ipt>')=%%

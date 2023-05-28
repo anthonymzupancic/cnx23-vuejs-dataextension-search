@@ -1,0 +1,33 @@
+const ResultsListItem = {
+    props: {
+        result: {
+            Name: {
+                type: String
+            },
+            CustomerKey: {
+                type: String
+            },
+            CategoryID: {
+                type: Number
+            }
+        }
+        },
+    template: `
+<section>
+    <ul class="pt-6 max-w-md space-y-1 text-gray-500 list-none list-inside dark:text-gray-400">
+        <li class="text-md font-bold text-clifford">
+            {{result.Name}}
+        </li>
+        <li>
+            Customer Key: {{result.CustomerKey}}
+        </li>
+        <li>
+            Created Date: {{ result.CreatedDate}}
+        </li>
+        <li>
+            Category ID: {{ result.CategoryID}}
+        </li>
+    </ul>
+</section>
+`,
+};

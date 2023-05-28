@@ -1,0 +1,82 @@
+<script runat="server">
+    Platform.Load("core", "1.1")
+    // Set Security Headers for Code Resource Page
+    // https://help.salesforce.com/s/articleView?id=sf.mc_cp_cloud_pages_security_best_practices.htm&type=5
+    Platform.Response.SetResponseHeader("Access-Control-Allow-Origin", "*");
+    Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');
+    Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');
+    Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');
+    Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');
+    Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    Platform.Response.SetResponseHeader('Content-Security-Policy', "default-src 'self'");
+
+    // Capture Post Request Data and Make it JSON
+    var postData = Platform.Request.GetPostData();
+    var postJSON = Platform.Function.ParseJSON(postData);
+
+    // Capture route search parameter
+    // Controls what block of code is run via the switch
+    var route = Platform.Request.GetQueryStringParameter('route')
+    var prox = new Script.Util.WSProxy();
+
+    // Import utility functions
+    Platform.Function.ContentBlockByID("10243")
+    // Import wsProxy functions
+    Platform.Function.ContentBlockByID("10245")
+    // Make Functions Available via prefixes
+    var util = util();
+    var ws = wsproxy();
+
+    /**
+     * Import Services 
+     * 
+     * Services are the isolated blocks of code
+     * that are run based on the route parameter
+     * 
+     **/
+
+    // GetDataExtensions => Content Builder/cnx23_vuejs_deSearch/backend/services
+    Platform.Function.ContentBlockByID("10244")
+
+    // Initiate response variable
+    var res = {
+        status: null,
+        response: null
+    };
+
+    // Switch controls what services are run based on the route parameter
+    switch (route) {
+        /**
+         * @function getDataExtension 
+         * @description Makes a wsProxy Data Extension retrieve request based on the input search term
+         * @param {string} postJSON.searchTerm 
+         * @returns {{status: string, response: array}}
+         **/
+
+        case 'getDataExtensions':
+            var searchTerm = postJSON.searchTerm || null;
+
+            // Return if no search term is provided
+            if (!searchTerm) {
+                res = {
+                    status: 'ok',
+                    response: 'No Search Term Provided'
+                }
+                break;
+            }
+
+            // Make request for provided search term
+            var deSearch = searchTerm && getDataExtensions(searchTerm)
+            
+            // Format response
+            res = deSearch || {
+                status: 'ok',
+                response: 'No Search Results Returned'
+            }
+            break;
+    }
+
+    // Send response to frontend
+    util.response(res)
+
+</script>
