@@ -8,3 +8,14 @@ Code in the repository illustrates how you can set up a SFMC CloudPages project 
 - VueJS - https://vuejs.org
 - TailwindCSS - https://tailwindcss.com/
 - Axios Http Client - https://axios-http.com/docs/intro
+
+## BLDR Install
+This package can be installed with BLDR:
+
+`bldr install https://github.com/anthonymzupancic/cnx23-vuejs-dataextension-search`
+`bldr deploy`
+
+If you need to install bldr:
+`npm install @basetime/bldr-sfmc`
+
+Installation details at bldr.io
