@@ -1,0 +1,208 @@
+{
+  "name": "cnx_de_search",
+  "version": "1",
+  "repository": "https://github.com/anthonymzupancic/cnx23-vuejs-dataextension-search",
+  "description": "VueJS Data Extension Search",
+  "tags": [
+    "sfmc",
+    "vuejs",
+    "search"
+  ],
+  "contentBuilder": {
+    "assets": [
+      {
+        "bldrId": "3673313b-44c6-40a2-860d-81a325b26a12",
+        "name": "app_html",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/frontend"
+        },
+        "content": "<body class=\"bg-gray-500\">\n    <div id=\"app\">\n        <data-extension-search @submit-search-request=\"submitSearch\">\n        </data-extension-search>\n        <data-extension-results :data-extension-return=\"dataExtensionReturn\">\n        </data-extension-results>\n    </div>\n</body>",
+        "dependencies": []
+      },
+      {
+        "bldrId": "819b385a-2d09-4c9b-a918-cb45989091c5",
+        "name": "app_js",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/frontend"
+        },
+        "content": "const AppJS = {\n  // Register Components\n  components: {\n    DataExtensionSearch,\n    DataExtensionResults,\n  },\n  // Data function returns $data object\n  data() {\n    return {\n      config: {\n        apiBaseURL:\n          \"https://mct6kk2l3spmvz7h3-s46x07swk0.pub.sfmc-content.com/1udssm1fr4q\",\n      },\n      dataExtensionReturn: [],\n    };\n  },\n  methods: {\n    submitSearch: async function (searchTerm) {\n      try {\n        if (!searchTerm) {\n          return;\n        }\n\n        const requestDataExtensionSearch = await axios.post(\n          `${this.config.apiBaseURL}?route=getDataExtensions`,\n          {\n            searchTerm,\n          }\n        );\n          console.log(requestDataExtensionSearch)\n        if (\n          requestDataExtensionSearch &&\n          requestDataExtensionSearch.data.status &&\n          requestDataExtensionSearch.data.status === \"ok\" &&\n          requestDataExtensionSearch.data.response &&\n          requestDataExtensionSearch.data.response.length\n        ) {\n            this.dataExtensionReturn = requestDataExtensionSearch.data.response\n        }\n      } catch (err) {\n        console.log(err);\n      }\n    },\n  },\n};\n\n// Initiate/configuration of main Vue Application\nconst app = Vue.createApp(AppJS).mount(\"#app\");\n",
+        "dependencies": [],
+        "context": "contentBuilder"
+      },
+      {
+        "bldrId": "bc2990e9-441c-4fbd-915c-46570a68c26a",
+        "name": "results",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/frontend/components"
+        },
+        "content": "const DataExtensionResults = {\ncomponents: {\n    ResultsListItem\n},\nprops: {\ndataExtensionReturn: Array\n},\ntemplate: `\n<section>\n    <div class=\"w-full max-w-4xl mx-auto mt-20\">\n        <div class=\"bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4\">\n            <h2 class=\"mb-2 text-lg font-semibold text-primary dark:text-dark\">Search Results:</h2>\n            <div v-for=\"(result, index) in dataExtensionReturn\" :key=\"result.CustomerKey\">\n                <!-- Use the Results List Item Component -->\n                <results-list-item :result=\"result\"></results-list-item>\n            </div>\n        </div>\n    </div>\n</section>\n`,\n};",
+        "dependencies": [],
+        "context": "contentBuilder"
+      },
+      {
+        "bldrId": "0c8ea265-2f0d-4918-a40f-02cf1c397b20",
+        "name": "search",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/frontend/components"
+        },
+        "content": "\nconst DataExtensionSearch = {\n    data() {\n      return {\n        formData: {\n          dataExtensionName: ''\n        },\n      };\n    },\n    methods: {\n      submitSearch: function () {\n        if(this.formData.dataExtensionName){\n          this.$emit('submitSearchRequest', this.formData.dataExtensionName)\n        } else {\n          return\n        }\n      }\n    },\n    template: `\n      <section class=\"formWrapper\">\n        <div class=\"w-full max-w-4xl mx-auto mt-20\">\n            <form class=\"bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4\">\n                <div class=\"mb-4\">\n                    <label class=\"block text-gray-700 text-sm font-bold mb-2\" for=\"dataExtensionName\">\n                        Data Extension Name\n                    </label>\n                    <input\n                        class=\"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline\"\n                        id=\"dataExtensionName\" type=\"text\" v-model=\"formData.dataExtensionName\">\n                </div>\n                <div class=\"flex items-center justify-between\">\n                    <button\n                        class=\"bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline\"\n                        type=\"button\"\n                        @click=\"submitSearch\"\n                        >\n                        Submit\n                    </button>\n                </div>\n            </form>\n        </div>\n    </section>\n        `,\n  };\n  ",
+        "dependencies": [],
+        "context": "contentBuilder"
+      },
+      {
+        "bldrId": "10699c75-ea28-4844-8d31-51e0c21f3967",
+        "name": "component_imports",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/frontend/imports"
+        },
+        "content": "<script runat=\"server\">\n    Platform.Load('core', 1.1)\n    \n    var appJS = Platform.Function.ContentBlockByID('819b385a-2d09-4c9b-a918-cb45989091c5')\n    var dataExtensionSearch = Platform.Function.ContentBlockByID('0c8ea265-2f0d-4918-a40f-02cf1c397b20')\n    var resultsListItem = Platform.Function.ContentBlockByID('88481cc0-eba7-4aa7-92ab-4caa4b16628a')\n    var dataExtensionResults = Platform.Function.ContentBlockByID('bc2990e9-441c-4fbd-915c-46570a68c26a')\n    var tailwindConfig = Platform.Function.ContentBlockByID('7a5402b0-72e6-4158-9c17-701b6db9253e')\n    \n</script>\n\n\n%%=Concat('<', 'scr', 'ipt>')=%%\n    <ctrl:var name=tailwindConfig />\n    <ctrl:var name=dataExtensionSearch />\n    <ctrl:var name=resultsListItem />\n    <ctrl:var name=dataExtensionResults />\n    <ctrl:var name=appJS />\n%%=Concat('</', 'scr', 'ipt>')=%%\n",
+        "dependencies": [
+          {
+            "bldrId": "819b385a-2d09-4c9b-a918-cb45989091c5",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByID"
+          },
+          {
+            "bldrId": "0c8ea265-2f0d-4918-a40f-02cf1c397b20",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByID"
+          },
+          {
+            "bldrId": "88481cc0-eba7-4aa7-92ab-4caa4b16628a",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByID"
+          },
+          {
+            "bldrId": "bc2990e9-441c-4fbd-915c-46570a68c26a",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByID"
+          },
+          {
+            "bldrId": "7a5402b0-72e6-4158-9c17-701b6db9253e",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByID"
+          }
+        ]
+      },
+      {
+        "bldrId": "88481cc0-eba7-4aa7-92ab-4caa4b16628a",
+        "name": "listItem",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/frontend/components"
+        },
+        "content": "const ResultsListItem = {\n    props: {\n        result: {\n            Name: {\n                type: String\n            },\n            CustomerKey: {\n                type: String\n            },\n            CategoryID: {\n                type: Number\n            }\n        }\n        },\n    template: `\n<section>\n    <ul class=\"pt-6 max-w-md space-y-1 text-gray-500 list-none list-inside dark:text-gray-400\">\n        <li class=\"text-md font-bold text-clifford\">\n            {{result.Name}}\n        </li>\n        <li>\n            Customer Key: {{result.CustomerKey}}\n        </li>\n        <li>\n            Created Date: {{ result.CreatedDate}}\n        </li>\n        <li>\n            Category ID: {{ result.CategoryID}}\n        </li>\n    </ul>\n</section>\n`,\n};",
+        "context": "contentBuilder",
+        "dependencies": []
+      },
+      {
+        "bldrId": "da390139-cf27-457d-b9da-5eba000feb08",
+        "name": "_ssjs_utils",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/backend/ssjs"
+        },
+        "content": "<script runat=\"server\">\nPlatform.Load(\"core\", \"1.1.1\");\n\nfunction util() {\n    var fn = {}\n\n    fn.isArray = function(arg) {\n        return Object.prototype.toString.call(arg) === '[object Array]';\n    }\n    \n    \n    fn.response = function(arg) {\n        Write(Stringify(arg))\n    }\n\n\n    fn.proxyContext = function(prox, mid) {\n        if (mid) {\n            //reset previous settings\n            prox.resetClientIds();\n            // Set ClientID \n            prox.setClientId({\n                \"ID\": mid\n            });\n        }\n        return prox\n    }\n\n\n    fn.deBug = function(action, response, logExtKey, debug) {\n        if (response) {\n            debug ? Write(\"<br><b>\" + action + \":</b><br> \" + Stringify(response) + \"<br><br>\") : null;\n        } else {\n            debug ? Write(\"<br><b>\" + action + \"</b><br> \") : null;\n        }\n\n        if (logExtKey) {\n            var log = {\n                action: action ? action : null,\n                log: response ? response : null\n            }\n\n            addLog(log, logExtKey);\n        }\n    }\n\n\n    /***********************************************\n     *\n     *   function addLog()\n     *   Pushes logging object to array to be written to a Data Extension\n     *   \n     *    @param obj {Object} logging object that matches the data extension\n     *    @param logExtKey {String} External Key to log records to\n     *    \n     ***********************************************/\n    fn.addLog = function(obj, logExtKey) {\n        var logDE = DataExtension.Init(logExtKey);\n        var logAction = logDE.Rows.Add(obj);\n    };\n\n\n    /***********************************************\n     * \n     * function getDataExtensionKey()\n     * Retieves the External Key for a SFMC Data Extension\n     * \n     * @param name {String} Name of the data extension\n     * @return {string} External Key of data extension\n     * \n     ***********************************************/\n    fn.getDataExtensionKey = function(name) {\n        var de = DataExtension.Retrieve({\n            Property: \"Name\",\n            SimpleOperator: \"equals\",\n            Value: name\n        });\n\n        var logKey = de[0].CustomerKey;\n\n        return logKey;\n    }\n\n\n    /***********************************************\n     * \n     * getFolderByName Function\n     * @name {string} - name of data extension to retrieve\n     * @contentType {string} - SFMC context: dataextension, ssjsactivity, asset,etc\n     * \n    ***********************************************/\n    fn.getFolderIDByName = function(config) {\n\n    if(!config.name) {\n        return 'folder name required'\n    }\n\n    if(!config.contentType) {\n        return 'contentType is required'\n    }\n\n\n    if(!config.parentFolderName){\n        var folderFilter = {\n            LeftOperand: {\n              Property: \"Name\",\n              SimpleOperator: \"equals\",\n              Value: config.name\n            },\n            LogicalOperator: \"AND\",\n            RightOperand: {\n              Property: \"ContentType\",\n              SimpleOperator: \"equals\",\n              Value: config.contentType\n            }\n          }\n    } else {\n        var folderFilter = {\n            LeftOperand: {\n              Property: \"Name\",\n              SimpleOperator: \"equals\",\n              Value: config.name\n            },\n            LogicalOperator: \"AND\",\n            RightOperand: {\n                LeftOperand: {\n                    Property: \"ParentFolder.Name\",\n                    SimpleOperator: \"equals\",\n                    Value: config.parentFolderName\n                  },\n                  LogicalOperator: \"AND\",\n                  RightOperand: {\n                    Property: \"ContentType\",\n                    SimpleOperator: \"equals\",\n                    Value: config.contentType\n                  }\n            }\n          }\n    }\n\n\n    var folderConfig = {\n      soapObjName: \"DataFolder\",\n      cols:[\"Name\", \"ID\", \"ParentFolder.ID\", \"ContentType\", \"ParentFolder.Name\",\"ObjectID\"],\n      filter: folderFilter\n    }\n\n    if(config.mid){\n        folderConfig.mid = config.mid\n    }\n\n    var res = wsRetrieve(folderConfig);\n    var folderID = res.Results[0].ID;\n    return folderID\n  }\n\n    \n    fn.queryStringToJSON = function(url) {\n        var query = url.split('?')[1] \n        var pairs = query.split('&');\n        \n        var result = {};\n        for(var q = 0; q < pairs.length; q++){\n            pair = pairs[q].split('=');\n            result[pair[0]] = decodeURIComponent(pair[1] || '');\n        }\n\n        return result;\n    }\n    \n    return fn\n}\n\n</script>",
+        "dependencies": [],
+        "context": "contentBuilder"
+      },
+      {
+        "bldrId": "0bdddd5c-6848-49b6-ab74-1e34ccefb977",
+        "name": "getDataExtensions",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/backend/services"
+        },
+        "content": "<script runat=\"server\">\n    Platform.Load(\"core\", \"1.1\");\n\n    function getDataExtensions(searchTerm) {\n        try {\n        var config = {\n            soapObjName: \"DataExtension\", \n            cols: ['Name', 'CustomerKey', 'CreatedDate', 'CategoryID'], \n            mid: \"\", //optional\n            filter: {\n                Property: 'Name',\n                SimpleOperator: 'like',\n                Value: 'nook'\n            }, //optional\n            opts: {}, //optional\n            props: {} //optional\n        }\n\n        var deSearch = ws.retrieve(config)\n\n        // Search Returned Results\n        if(deSearch && deSearch.results){\n            return {\n                status: 'ok',\n                response: deSearch.results || []\n            }\n        //No Results Returned\n        } else {\n            return {\n                status: 'ok',\n                response: 'No results Returned'\n            }\n        }\n    } catch (err){\n        return {\n            status: 'error',\n            response: err\n        }\n    }\n    }\n\n</script>",
+        "dependencies": [],
+        "context": "contentBuilder"
+      },
+      {
+        "bldrId": "3397225b-089e-46f6-85aa-424345abd708",
+        "name": "_ssjs_wsproxy",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/backend/ssjs"
+        },
+        "content": "<script runat=\"server\">\nPlatform.Load(\"core\", \"1.1.1\");\n\n/******\n    ws.retrieve\n    var config = {\n        soapObjName: \"\", //required\n        cols: [], //required\n        mid: \"\", //optional\n        filter: {}, //optional\n        opts: {}, //optional\n        props: {} //optional\n    }\n\n    ws.create\n    var config = {\n        soapObjName: \"\", //required\n        payload: {}, //required\n        mid: \"\" //optional\n    }\n\n    ws.update\n    var config = {\n        soapObjName: \"\", //required\n        payload: {}, //required\n        options: {} //required\n    }\n\n    ws.perform\n    var config = {\n        soapObjName: \"\", //required\n        payload: {}, //required\n        options: {} //required\n    }\n ******/\nfunction wsproxy() {\n    var prox = new Script.Util.WSProxy();\n    var fn = {};\n\n    /*******************************\n     * @config {Object}\n     * @continueRequest {Boolean}\n     * @return {Array}\n     ******************************/\n    fn.retrieve = function(config, continueRequest) {\n\n        var reqID;\n        var moreData = true;\n        var continueRequest = continueRequest ? continueRequest : false;\n        var obj = config.soapObjName ? config.soapObjName : null;\n        var opts = config.opts ? config.opts : {};\n        var props = config.props ? config.props : {};\n        var filter = config.filter ? config.filter : {};\n        var cols = config.cols ? config.cols : null;\n        var mid = config.mid ? config.mid : null;\n        prox = mid ? util.proxyContext(prox, mid) : prox;\n\n        if (!config) { return 'configuration required'; }\n        if (!obj) { return 'SOAP object is required'; }\n\n        var resultsOut = [];\n\n        // my script to set the values for function\n        while (moreData) {\n            moreData = false;\n            if (reqID == null) {\n                if (filter) {\n                    var data = prox.retrieve(obj, cols, filter, opts, props);\n                } else {\n                    var data = prox.retrieve(obj, cols);\n                }\n            } else {\n                var data = prox.getNextBatch(obj, reqID);\n            }\n\n            if (data != null) {\n\n                if (continueRequest) {\n                    moreData = data.HasMoreRows;\n                    reqID = data.RequestID;\n                }\n\n                //my script to interact with results\n                if (data && data.Results) {\n                    for (var i = 0; i < data.Results.length; i++) {\n                        resultsOut.push(data.Results[i]);\n                    }\n                }\n            }\n        }\n\n\n        var res = {\n            results: resultsOut\n        }\n        return res\n    } // end retreive\n\n\n    /*******************************\n     * @config {Object}\n     * @return {Object}\n     ******************************/\n    fn.create = function(config) {\n        var obj = config.soapObjName ? config.soapObjName : null;\n        var payload = config.payload ? config.payload : null;\n        var mid = config.mid ? config.mid : null;\n        prox = mid ? util.proxyContext(prox, mid) : prox;\n\n        if (!config) { return 'configuration required'; }\n        if (!obj) { return 'configuration required'; }\n        if (!payload) { return 'payload is required'; }\n\n        var batch = util.isArray(payload);\n\n        if (batch) {\n            var res = prox.createBatch(obj, payload);\n        } else {\n            var res = prox.createItem(obj, payload);\n        }\n\n        return res;\n    } // end create\n\n    /*******************************\n     * @config {Object}\n     * @return {Object}\n     ******************************/\n    fn.update = function(config) {\n        var obj = config.soapObjName ? config.soapObjName : null;\n        var payload = config.payload ? config.payload : null;\n        var options = config.options ? config.options : null;\n        var mid = config.mid ? config.mid : null;\n        prox = mid ? util.proxyContext(prox, mid) : prox;\n\n        if (!config) { return 'configuration required'; }\n        if (!obj) { return 'SOAP object is required'; }\n        if (!payload) { return 'payload is required'; }\n\n        var batch = util.isArray(payload);\n\n        if (batch) {\n            var res = prox.updateBatch(obj, payload, options);\n        } else {\n            var res = prox.updateItem(obj, payload, options);\n        }\n\n        return res;\n    } // end update\n\n\n    /*******************************\n     * @config {Object}\n     * @return {Object}\n     ******************************/\n    fn.perform = function(config) {\n        var obj = config.soapObjName ? config.soapObjName : null;\n        var props = payload.props ? payload.props : {};\n        var action = payload.action ? payload.action : {};\n        var opts = payload.opts ? payload.opts : {};\n\n        var mid = config.mid ? config.mid : null;\n        prox = mid ? util.proxyContext(prox, mid) : prox;\n\n        if (!config) { return 'configuration required'; }\n        if (!obj) { return 'SOAP object is required'; }\n        if (!payload) { return 'payload is required'; }\n\n        var res = prox.performItem(obj, props, action, opts);\n        return res;\n    } // end perform\n\n    return fn\n}\n\n</script>",
+        "dependencies": [],
+        "context": "contentBuilder"
+      },
+      {
+        "bldrId": "da4b9334-971b-42e3-9138-d071471a6113",
+        "name": "api_controller",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/backend"
+        },
+        "content": "<script runat=\"server\">\n    Platform.Load(\"core\", \"1.1\")\n    // Set Security Headers for Code Resource Page\n    // https://help.salesforce.com/s/articleView?id=sf.mc_cp_cloud_pages_security_best_practices.htm&type=5\n    Platform.Response.SetResponseHeader(\"Access-Control-Allow-Origin\", \"*\");\n    Platform.Response.SetResponseHeader('Strict-Transport-Security', 'max-age=200');\n    Platform.Response.SetResponseHeader('X-XSS-Protection', '1; mode=block');\n    Platform.Response.SetResponseHeader('X-Frame-Options', 'Deny');\n    Platform.Response.SetResponseHeader('X-Content-Type-Options', 'nosniff');\n    Platform.Response.SetResponseHeader('Referrer-Policy', 'strict-origin-when-cross-origin');\n    Platform.Response.SetResponseHeader('Content-Security-Policy', \"default-src 'self'\");\n\n    // Capture Post Request Data and Make it JSON\n    var postData = Platform.Request.GetPostData();\n    var postJSON = Platform.Function.ParseJSON(postData);\n\n    // Capture route search parameter\n    // Controls what block of code is run via the switch\n    var route = Platform.Request.GetQueryStringParameter('route')\n    var prox = new Script.Util.WSProxy();\n\n    // Import utility functions\n    Platform.Function.ContentBlockByID(\"da390139-cf27-457d-b9da-5eba000feb08\")\n    // Import wsProxy functions\n    Platform.Function.ContentBlockByID(\"3397225b-089e-46f6-85aa-424345abd708\")\n    // Make Functions Available via prefixes\n    var util = util();\n    var ws = wsproxy();\n\n    /**\n     * Import Services \n     * \n     * Services are the isolated blocks of code\n     * that are run based on the route parameter\n     * \n     **/\n\n    // GetDataExtensions => Content Builder/cnx23_vuejs_deSearch/backend/services\n    Platform.Function.ContentBlockByID(\"0bdddd5c-6848-49b6-ab74-1e34ccefb977\")\n\n    // Initiate response variable\n    var res = {\n        status: null,\n        response: null\n    };\n\n    // Switch controls what services are run based on the route parameter\n    switch (route) {\n        /**\n         * @function getDataExtension \n         * @description Makes a wsProxy Data Extension retrieve request based on the input search term\n         * @param {string} postJSON.searchTerm \n         * @returns {{status: string, response: array}}\n         **/\n\n        case 'getDataExtensions':\n            var searchTerm = postJSON.searchTerm || null;\n\n            // Return if no search term is provided\n            if (!searchTerm) {\n                res = {\n                    status: 'ok',\n                    response: 'No Search Term Provided'\n                }\n                break;\n            }\n\n            // Make request for provided search term\n            var deSearch = searchTerm && getDataExtensions(searchTerm)\n            \n            // Format response\n            res = deSearch || {\n                status: 'ok',\n                response: 'No Search Results Returned'\n            }\n            break;\n    }\n\n    // Send response to frontend\n    util.response(res)\n\n</script>",
+        "dependencies": [
+          {
+            "bldrId": "da390139-cf27-457d-b9da-5eba000feb08",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByID"
+          },
+          {
+            "bldrId": "3397225b-089e-46f6-85aa-424345abd708",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByID"
+          },
+          {
+            "bldrId": "0bdddd5c-6848-49b6-ab74-1e34ccefb977",
+            "context": "contentBuilder",
+            "reference": "ContentBlockByID"
+          }
+        ]
+      },
+      {
+        "bldrId": "7a5402b0-72e6-4158-9c17-701b6db9253e",
+        "name": "tailwind_config",
+        "assetType": {
+          "id": 220,
+          "name": "codesnippetblock"
+        },
+        "category": {
+          "folderPath": "Content Builder/cnx23_vuejs_deSearch/frontend"
+        },
+        "content": "// https://tailwindcss.com/docs/configuration\ntailwind.config = {\n    theme: {\n      extend: {\n        colors: {\n          primary: '#da373d',\n        }\n      }\n    }\n  }",
+        "context": "contentBuilder",
+        "dependencies": []
+      }
+    ]
+  }
+}
